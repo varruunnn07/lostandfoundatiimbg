@@ -19,11 +19,11 @@ const HomePage: React.FC = () => {
   const [recentItems, setRecentItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const stats = {
+  const [stats, setStats] = useState({
     reported: 142,
     returned: 89,
     members: 356
-  };
+  });
 
   useEffect(() => {
     // Hide animated shapes globally while on HomePage
@@ -35,12 +35,54 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
+  const fetchStats = async () => {
+    try {
+      const [{ count: reported }, { count: returned }, { count: members }] = await Promise.all([
+        supabase.from('items').select('*', { count: 'exact', head: true }),
+        supabase.from('items').select('*', { count: 'exact', head: true }).eq('status', 'collected'),
+        supabase.from('profiles').select('*', { count: 'exact', head: true })
+      ]);
+
+      setStats(prev => ({
+        reported: reported !== null && reported !== 0 ? reported : prev.reported,
+        returned: returned !== null && returned !== 0 ? returned : prev.returned,
+        members: members !== null && members !== 0 ? members : prev.members
+      }));
+    } catch (err) {
+      console.error('Error fetching stats:', err);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchRecentItems();
+      fetchStats();
     } else {
       setLoading(false);
+      // reset to default if logged out to show something nice
+      setStats({
+        reported: 142,
+        returned: 89,
+        members: 356
+      });
     }
+
+    const channel = supabase.channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'items' },
+        () => {
+          if (user) {
+            fetchStats();
+            fetchRecentItems();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user]);
 
   const fetchRecentItems = async () => {
@@ -96,20 +138,20 @@ const HomePage: React.FC = () => {
       <div className="fixed inset-0 bg-[#F6F3EC] -z-[20]"></div>
 
       {/* FULL WIDTH HERO VIDEO BACKGROUND (Absolute, scrolls with page) */}
-      <div className="absolute top-0 left-0 w-full h-[85vh] md:h-[90vh] -z-[10] overflow-hidden bg-[#001f3f]">
+      <div className="absolute top-0 left-0 w-full h-[85vh] md:h-[90vh] -z-[10] overflow-hidden bg-black">
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="metadata"
-          className="w-full h-full object-cover opacity-60"
+          className="w-full h-full object-cover"
         >
           {/* Placeholder video - Replace with local IIMBG campus footage later */}
           <source src="iimbg.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-[#001f3f]/50"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         {/* Bottom gradient fade into solid background, pushed low */}
         <div className="absolute bottom-0 left-0 w-full h-[70px] bg-gradient-to-b from-transparent to-[#F6F3EC]"></div>
       </div>
@@ -123,10 +165,10 @@ const HomePage: React.FC = () => {
             <div className="inline-block bg-white/10 text-white font-bold px-4 py-1.5 rounded-[50px] text-[0.8rem] tracking-widest uppercase mb-6 border border-white/20 shadow-sm backdrop-blur-sm">
               Lost & Found Portal
             </div>
-            <h1 className="text-[4rem] lg:text-[4.5rem] font-extrabold leading-[1.05] tracking-tight mb-6 text-white drop-shadow-md">
+            <h1 className="text-[3rem] md:text-[4rem] lg:text-[4.5rem] font-extrabold leading-[1.05] tracking-tight mb-6 text-white drop-shadow-md">
               Lost Something? <br /> Let's <span className="text-secondary drop-shadow-sm">Find It.</span>
             </h1>
-            <p className="text-[1.2rem] text-white/90 mb-10 leading-relaxed font-medium max-w-[90%] drop-shadow-sm">
+            <p className="text-[1.1rem] md:text-[1.2rem] text-white/90 mb-10 leading-relaxed font-medium max-w-[90%] drop-shadow-sm">
               A central place for the IIM Bodhgaya community to report, find, and return lost items.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -166,7 +208,7 @@ const HomePage: React.FC = () => {
         </div>
 
         {/* STATS SECTION */}
-        <div className="flex flex-wrap items-center justify-center md:justify-between py-6 px-12 rounded-[20px] mt-4 bg-white/70 backdrop-blur-sm gap-4 border border-white shadow-sm">
+        <div className="flex flex-wrap items-center justify-center md:justify-between py-6 px-6 md:px-12 rounded-[20px] mt-4 bg-white/70 backdrop-blur-sm gap-4 border border-white shadow-sm">
           <div className="flex items-center gap-4">
             <div className="w-[45px] h-[45px] rounded-[12px] flex items-center justify-center text-[1.5rem] bg-[#00509e1a] text-[#00509e]">
               <Archive size={24} />

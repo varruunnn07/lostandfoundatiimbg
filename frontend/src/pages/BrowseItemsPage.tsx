@@ -184,7 +184,7 @@ const BrowseItemsPage: React.FC = () => {
             maxLength={100}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button 
             onClick={() => setTypeFilter('all')}
             className={`px-4 py-3 rounded-[12px] font-semibold text-[0.9rem] transition-all border ${
@@ -210,7 +210,7 @@ const BrowseItemsPage: React.FC = () => {
             Found Only
           </button>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <select 
             value={categoryFilter} 
             onChange={e => setCategoryFilter(e.target.value)}

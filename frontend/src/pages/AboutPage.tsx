@@ -3,9 +3,9 @@ import React from 'react';
 const AboutPage: React.FC = () => {
   return (
     <main className="flex flex-col items-center py-4">
-      <div className="glass-panel p-8 md:p-12 max-w-[800px] w-full rounded-[24px]">
+      <div className="glass-panel p-6 md:p-12 max-w-[800px] w-full rounded-[24px]">
         <div className="text-center mb-10">
-          <h1 className="text-[3rem] font-extrabold mb-2 text-primary">About Lost & Found</h1>
+          <h1 className="text-[2.2rem] md:text-[3rem] font-extrabold mb-2 text-primary">About Lost & Found</h1>
           <p className="text-[1.2rem] font-bold text-secondary">Lost something? Found something? Let's bring it back home.</p>
         </div>
 
@@ -17,7 +17,7 @@ const AboutPage: React.FC = () => {
           </section>
 
           <section>
-            <h2 className="text-[1.8rem] font-extrabold text-primary mb-3">A Campus That Looks Out for Its Own</h2>
+            <h2 className="text-[1.5rem] md:text-[1.8rem] font-extrabold text-primary mb-3">A Campus That Looks Out for Its Own</h2>
             <p className="mb-4">
               This platform provides a common place for students to report lost belongings, share details of items they've found, and browse listings to help reunite people with their possessions.
             </p>
@@ -27,7 +27,7 @@ const AboutPage: React.FC = () => {
           </section>
 
           <section>
-            <h2 className="text-[1.8rem] font-extrabold text-primary mb-4">How It Works</h2>
+            <h2 className="text-[1.5rem] md:text-[1.8rem] font-extrabold text-primary mb-4">How It Works</h2>
             <div className="flex flex-col gap-5">
               <div>
                 <h3 className="text-[1.2rem] font-bold text-primary">1. Report an Item</h3>
@@ -49,7 +49,7 @@ const AboutPage: React.FC = () => {
           </section>
 
           <section>
-            <h2 className="text-[1.8rem] font-extrabold text-primary mb-3">Built for Our Campus</h2>
+            <h2 className="text-[1.5rem] md:text-[1.8rem] font-extrabold text-primary mb-3">Built for Our Campus</h2>
             <p className="mb-4">
               Designed around the needs of the IIM Bodh Gaya student community, the portal aims to make the process of reporting, finding, and returning belongings simple and accessible.
             </p>
@@ -59,7 +59,7 @@ const AboutPage: React.FC = () => {
           </section>
 
           <section className="bg-white/50 p-8 rounded-[20px] border border-white/80 text-center shadow-sm my-2">
-            <h2 className="text-[1.8rem] font-extrabold text-primary mb-3">Our Guiding Principle</h2>
+            <h2 className="text-[1.5rem] md:text-[1.8rem] font-extrabold text-primary mb-3">Our Guiding Principle</h2>
             <p className="text-[1.3rem] font-extrabold text-[#e0a800] mb-4">Find it. Report it. Return it.</p>
             <p className="mb-4">
               A lost item may seem small, but returning it can make someone's entire day. Every report, every search, and every honest effort counts.

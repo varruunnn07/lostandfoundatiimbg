@@ -3,14 +3,14 @@ import { Mail, Clock } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white/80 backdrop-blur-xl border border-white/80 text-text-dark rounded-[40px] px-10 py-16 mt-16 md:mt-24 shadow-[0_8px_32px_rgba(0,0,0,0.05)] overflow-hidden relative">
+    <footer className="bg-white/80 backdrop-blur-xl border border-white/80 text-text-dark rounded-[30px] md:rounded-[40px] px-6 md:px-10 py-12 md:py-16 mt-8 md:mt-24 shadow-[0_8px_32px_rgba(0,0,0,0.05)] overflow-hidden relative">
       {/* Top section: Logo, Tagline, Links */}
       <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
         
         {/* Left side: Logo & Tagline */}
         <div className="max-w-[500px]">
-          <h2 className="text-[3rem] font-extrabold mb-4 tracking-tight leading-none flex items-center gap-3 text-primary">
-            <img src="/logo.png" alt="IT Committee" className="h-[3.5rem] w-[3.5rem] rounded-full object-cover" />
+          <h2 className="text-[2.2rem] md:text-[3rem] font-extrabold mb-4 tracking-tight leading-none flex items-center gap-3 text-primary">
+            <img src="/logo.png" alt="IT Committee" className="h-[2.5rem] w-[2.5rem] md:h-[3.5rem] md:w-[3.5rem] rounded-full object-cover" />
             Lost<span className="text-secondary drop-shadow-sm font-light">&</span>Found
           </h2>
           <p className="text-text-light text-[1.1rem] leading-relaxed font-medium">

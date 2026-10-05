@@ -16,7 +16,7 @@ function App() {
     <AuthProvider>
       <Router>
         <BackgroundShapes />
-        <div className="max-w-[1400px] mx-auto py-8 px-8 lg:px-16 app-container">
+        <div className="max-w-[1400px] mx-auto py-4 md:py-8 px-4 md:px-8 lg:px-16 app-container">
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
