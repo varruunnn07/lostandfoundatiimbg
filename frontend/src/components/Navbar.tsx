@@ -21,11 +21,17 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="flex flex-col md:flex-row justify-between items-center py-4 px-8 rounded-[50px] bg-white/50 backdrop-blur-[10px] border border-white/80 mb-16 gap-4 md:gap-0">
-      <div className="flex items-center gap-4">
-        <img src="/logo.png" alt="IT Committee IIM Bodhgaya Logo" className="w-[45px] h-[45px] rounded-full object-cover border-2 border-white shadow-[0_4px_10px_rgba(0,0,0,0.1)]" />
-        <div className="flex flex-col">
-          <span className="font-extrabold text-[1.2rem] text-primary">iT Comm.</span>
-          <span className="text-[0.7rem] font-semibold tracking-[1px] text-text-light">IIM BODHGAYA</span>
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 border-r border-black/10 pr-6 hidden lg:flex">
+          <img src="/logo-iimbg-new.png" alt="IIM Bodh Gaya" className="h-[75px] object-contain -my-4 ml-[-5px]" />
+          <img src="/logo-aacsb.png" alt="AACSB" className="h-[45px] object-contain" />
+        </div>
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="IT Committee IIM Bodhgaya Logo" className="w-[45px] h-[45px] rounded-full object-cover border-2 border-white shadow-[0_4px_10px_rgba(0,0,0,0.1)]" />
+          <div className="flex flex-col">
+            <span className="font-extrabold text-[1.2rem] text-primary leading-tight">iT Comm.</span>
+            <span className="text-[0.65rem] font-semibold tracking-[1px] text-text-light">IIM BODHGAYA</span>
+          </div>
         </div>
       </div>
 
@@ -55,3 +61,7 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
+
+
+
