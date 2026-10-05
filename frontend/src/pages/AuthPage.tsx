@@ -43,6 +43,7 @@ const AuthPage: React.FC = () => {
             data: {
               full_name: fullName,
             },
+            emailRedirectTo: `${window.location.origin}/auth`,
           },
         });
         if (error) throw error;
