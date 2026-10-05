@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Portal - IIM Bodhgaya</title>
+    <meta name="description"
+        content="A central place for the IIM Bodhgaya community to report, find, and return lost items.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="logo-container">
+                <img src="logo.png" alt="IT Committee IIM Bodhgaya Logo" class="logo">
+                <div class="logo-text">
+                    <span class="logo-title">iT Comm.</span>
+                    <span class="logo-subtitle">IIM BODHGAYA</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Report Item</a>
+                <a href="#" class="nav-link">Browse Items</a>
+                <a href="#" class="nav-link">About</a>
+            </nav>
+
+            <button class="sign-in-btn">
+                <i class="ri-user-line"></i> Sign In
+            </button>
+        </header>
+
+        <main class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text-area">
+                    <p class="subtitle">LOST & FOUND PORTAL <br> Powered by <span class="highlight">IT Committee</span>
+                    </p>
+                    <h1 class="main-title">Lost Something?<br>Let's <span class="highlight">Find It.</span></h1>
+                    <p class="description">A central place for the IIM Bodhgaya community<br>to report, find, and return
+                        lost items.</p>
+
+                    <div class="search-bar glass-panel">
+                        <i class="ri-search-line search-icon"></i>
+                        <input type="text" placeholder="Search for items (e.g. laptop, ID card, bottle...)">
+                        <button class="search-btn">Search <i class="ri-arrow-right-line"></i></button>
+                    </div>
+
+                    <div class="action-cards">
+                        <div class="action-card glass-panel interactive-hover">
+                            <div class="icon-box secondary-box">
+                                <i class="ri-add-line"></i>
+                            </div>
+                            <div class="card-text">
+                                <h3>Report a Lost Item</h3>
+                                <p>Can't find something?</p>
+                            </div>
+                            <i class="ri-arrow-right-line arrow-icon"></i>
+                        </div>
+                        <div class="action-card glass-panel interactive-hover">
+                            <div class="icon-box primary-box">
+                                <i class="ri-archive-line"></i>
+                            </div>
+                            <div class="card-text">
+                                <h3>Report a Found Item</h3>
+                                <p>Help it find its owner.</p>
+                            </div>
+                            <i class="ri-arrow-right-line arrow-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row glass-panel">
+                <div class="stat-item">
+                    <div class="stat-icon-wrapper light-secondary">
+                        <i class="ri-archive-drawer-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>48</h4>
+                        <p>Items Reported</p>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon-wrapper light-success">
+                        <i class="ri-check-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>31</h4>
+                        <p>Items Returned</p>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon-wrapper light-primary">
+                        <i class="ri-team-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h4>120+</h4>
+                        <p>Community Members</p>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item heart-item">
+                    <div class="stat-icon-wrapper light-primary">
+                        <i class="ri-heart-3-fill"></i>
+                    </div>
+                    <div class="stat-info">
+                        <p>A Cleaner,<br>Kinder Campus</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="recently-added glass-panel">
+                <div class="section-header">
+                    <h2>Recently Added Items</h2>
+                    <button class="view-all-btn">View All <i class="ri-arrow-right-line"></i></button>
+                </div>
+
+                <div class="items-grid">
+                    <!-- Item 1 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-1"></div>
+                            <span class="status-badge status-found">Found</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>Notebook</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Academic Block</span>
+                                <span><i class="ri-time-line"></i> 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-2"></div>
+                            <span class="status-badge status-lost">Lost</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>Water Bottle</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Library</span>
+                                <span><i class="ri-time-line"></i> 5 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-3"></div>
+                            <span class="status-badge status-found">Found</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>AirPods Case</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Auditorium</span>
+                                <span><i class="ri-time-line"></i> 1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-4"></div>
+                            <span class="status-badge status-lost">Lost</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>ID Card</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Mess</span>
+                                <span><i class="ri-time-line"></i> 1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-5"></div>
+                            <span class="status-badge status-found">Found</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>Spectacles</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Learning Center</span>
+                                <span><i class="ri-time-line"></i> 2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="item-card interactive-hover">
+                        <div class="item-image-container">
+                            <div class="item-placeholder img-6"></div>
+                            <span class="status-badge status-lost">Lost</span>
+                        </div>
+                        <div class="item-details">
+                            <h3>Jacket</h3>
+                            <div class="item-meta">
+                                <span><i class="ri-map-pin-line"></i> Sports Complex</span>
+                                <span><i class="ri-time-line"></i> 3 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
