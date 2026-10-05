@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
         .select('id, name, item_type, lost_location, found_location, image_path, created_at')
         .eq('status', 'available')
         .order('created_at', { ascending: false })
-        .limit(6);
+        .limit(16);
 
       if (error) throw error;
       setRecentItems(data || []);
@@ -289,7 +289,7 @@ const HomePage: React.FC = () => {
               <p className="text-text-light">Be the first to report a lost or found item!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
               {recentItems.map(item => {
                 const imageUrl = getImageUrl(item.image_path);
                 const locationStr = item.item_type === 'lost' ? item.lost_location : item.found_location;
@@ -312,12 +312,12 @@ const HomePage: React.FC = () => {
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-[1rem] font-bold mb-2 text-text-dark leading-tight">{item.name}</h3>
+                      <h3 className="text-[0.9rem] sm:text-[1rem] font-bold mb-1 sm:mb-2 text-text-dark leading-tight">{item.name}</h3>
                       <div className="flex flex-col gap-1">
-                        <span className="text-[0.8rem] text-text-light flex items-center gap-2 truncate">
+                        <span className="text-[0.7rem] sm:text-[0.8rem] text-text-light flex items-center gap-1 sm:gap-2 truncate">
                           <MapPin size={14} className="flex-shrink-0" /> {locationStr}
                         </span>
-                        <span className="text-[0.8rem] text-text-light flex items-center gap-2">
+                        <span className="text-[0.7rem] sm:text-[0.8rem] text-text-light flex items-center gap-1 sm:gap-2">
                           <Clock size={14} className="flex-shrink-0" /> {timeAgo(item.created_at)}
                         </span>
                       </div>
