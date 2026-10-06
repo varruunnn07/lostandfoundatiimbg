@@ -88,6 +88,12 @@ const ReportItemPage: React.FC = () => {
     setError(null);
     setSuccess(null);
 
+    if (reporterContact.length !== 10) {
+      setError('Please enter a valid 10-digit phone number.');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       let imagePathsArray: string[] = [];
 
@@ -286,17 +292,18 @@ const ReportItemPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="text-[0.85rem] font-bold text-text-dark ml-2">Contact Details *</label>
+              <label className="text-[0.85rem] font-bold text-text-dark ml-2">Phone Number *</label>
               <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
                 <Phone size={18} className="text-text-light mr-3" />
                 <input 
                   type="text" 
                   value={reporterContact}
-                  onChange={(e) => setReporterContact(e.target.value)}
-                  placeholder="Phone number or Email"
+                  onChange={(e) => setReporterContact(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  placeholder="10-digit mobile number"
                   className="bg-transparent border-none outline-none w-full text-text-dark font-sans placeholder:text-text-light/60"
                   required
-                  maxLength={100}
+                  pattern="\d{10}"
+                  maxLength={10}
                 />
               </div>
             </div>

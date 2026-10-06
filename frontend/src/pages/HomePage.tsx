@@ -183,26 +183,26 @@ const HomePage: React.FC = () => {
 
           {/* Quick Action Cards */}
           <div className="flex-1 w-full max-w-[500px] flex flex-col gap-4 z-10">
-            <Link to="/report" className="bg-white/20 backdrop-blur-md border border-white/30 interactive-hover flex items-center p-5 gap-4 flex-1 no-underline text-inherit rounded-[20px] shadow-sm">
+            <Link to="/report" className="bg-black/40 backdrop-blur-md border border-white/20 interactive-hover flex items-center p-5 gap-4 flex-1 no-underline text-inherit rounded-[20px] shadow-sm">
               <div className="w-[45px] h-[45px] rounded-[12px] flex items-center justify-center text-[1.5rem] bg-white text-primary">
                 <Plus size={24} />
               </div>
               <div>
-                <h3 className="text-[1.1rem] font-bold mb-1 text-white">Report a Lost Item</h3>
-                <p className="text-[0.85rem] text-white/80 m-0">Can't find something?</p>
+                <h3 className="text-[1.1rem] font-bold mb-1 text-white drop-shadow-md">Report a Lost Item</h3>
+                <p className="text-[0.85rem] text-white/90 m-0 drop-shadow-md">Can't find something?</p>
               </div>
-              <ArrowRight className="ml-auto text-white/80" size={20} />
+              <ArrowRight className="ml-auto text-white/90 drop-shadow-md" size={20} />
             </Link>
             
-            <Link to="/report" className="bg-white/20 backdrop-blur-md border border-white/30 interactive-hover flex items-center p-5 gap-4 flex-1 no-underline text-inherit rounded-[20px] shadow-sm">
+            <Link to="/report" className="bg-black/40 backdrop-blur-md border border-white/20 interactive-hover flex items-center p-5 gap-4 flex-1 no-underline text-inherit rounded-[20px] shadow-sm">
               <div className="w-[45px] h-[45px] rounded-[12px] flex items-center justify-center text-[1.5rem] bg-white text-primary">
                 <Archive size={24} />
               </div>
               <div>
-                <h3 className="text-[1.1rem] font-bold mb-1 text-white">Report a Found Item</h3>
-                <p className="text-[0.85rem] text-white/80 m-0">Help it find its owner.</p>
+                <h3 className="text-[1.1rem] font-bold mb-1 text-white drop-shadow-md">Report a Found Item</h3>
+                <p className="text-[0.85rem] text-white/90 m-0 drop-shadow-md">Help it find its owner.</p>
               </div>
-              <ArrowRight className="ml-auto text-white/80" size={20} />
+              <ArrowRight className="ml-auto text-white/90 drop-shadow-md" size={20} />
             </Link>
           </div>
         </div>

@@ -119,6 +119,11 @@ const ItemDetailsPage: React.FC = () => {
       return;
     }
 
+    if (formPhone.length !== 10) {
+      setSubmitError('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -502,10 +507,11 @@ const ItemDetailsPage: React.FC = () => {
                     <div className="flex items-center bg-black/5 rounded-[12px] p-2.5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                       <Phone size={18} className="text-text-light ml-2 mr-3" />
                       <input 
-                        type="tel" required value={formPhone} onChange={e => setFormPhone(e.target.value)}
-                        placeholder="+91 9876543210"
+                        type="tel" required value={formPhone} onChange={e => setFormPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                        placeholder="10-digit mobile number"
                         className="bg-transparent border-none outline-none w-full text-[0.95rem] font-sans"
-                        maxLength={50}
+                        pattern="\d{10}"
+                        maxLength={10}
                       />
                     </div>
                   </div>
