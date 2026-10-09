@@ -2,8 +2,8 @@ import React from 'react';
 
 const AboutPage: React.FC = () => {
   return (
-    <main className="flex flex-col items-center py-4">
-      <div className="glass-panel p-6 md:p-12 max-w-[800px] w-full rounded-[24px]">
+    <main className="flex flex-col items-center py-4 px-4">
+      <div className="bg-white p-6 md:p-12 max-w-[800px] w-full rounded-[16px] border-none shadow-apple">
         <div className="text-center mb-10">
           <h1 className="text-[2.2rem] md:text-[3rem] font-extrabold mb-2 text-primary">About Lost & Found</h1>
           <p className="text-[1.2rem] font-bold text-secondary">Lost something? Found something? Let's bring it back home.</p>
@@ -58,7 +58,7 @@ const AboutPage: React.FC = () => {
             </p>
           </section>
 
-          <section className="bg-white/50 p-8 rounded-[20px] border border-white/80 text-center shadow-sm my-2">
+          <section className="bg-[var(--bg-base)] p-8 rounded-[16px] border border-black/5 text-center shadow-sm my-2">
             <h2 className="text-[1.5rem] md:text-[1.8rem] font-extrabold text-primary mb-3">Our Guiding Principle</h2>
             <p className="text-[1.3rem] font-extrabold text-[#e0a800] mb-4">Find it. Report it. Return it.</p>
             <p className="mb-4">

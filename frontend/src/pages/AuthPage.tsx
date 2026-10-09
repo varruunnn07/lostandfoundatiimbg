@@ -58,7 +58,7 @@ const AuthPage: React.FC = () => {
 
   return (
     <main className="flex flex-col gap-8 items-center justify-center min-h-[60vh] py-8">
-      <div className="glass-panel p-8 max-w-[450px] w-full rounded-[24px]">
+      <div className="bg-white border-none shadow-apple p-8 max-w-[450px] w-full rounded-[16px]">
         <h1 className="text-[2rem] font-extrabold mb-2 text-center text-primary">
           {isLogin ? 'Welcome Back' : 'Create an Account'}
         </h1>
@@ -84,7 +84,7 @@ const AuthPage: React.FC = () => {
           {!isLogin && (
             <div className="flex flex-col gap-2">
               <label className="text-[0.85rem] font-bold text-text-dark ml-2">Full Name</label>
-              <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 transition-all focus-within:bg-white focus-within:shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+              <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 transition-all focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20">
                 <User size={18} className="text-text-light mr-3" />
                 <input 
                   type="text" 

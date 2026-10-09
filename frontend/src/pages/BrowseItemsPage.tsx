@@ -22,28 +22,31 @@ interface Item {
   collected_at?: string;
 }
 
+type FilterMode = 'all' | 'lost' | 'found' | 'resolved';
+
 const BrowseItemsPage: React.FC = () => {
   const { user, isLoading: authLoading } = useAuth();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<'available' | 'collected'>('available');
+  const [filterMode, setFilterMode] = useState<FilterMode>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [typeFilter, setTypeFilter] = useState<'all' | 'lost' | 'found'>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
+  const [locationQuery, setLocationQuery] = useState('');
 
   useEffect(() => {
     if (user) {
       fetchItems();
     }
-  }, [statusFilter, user]);
+  }, [filterMode, user]);
 
   const fetchItems = async () => {
     setLoading(true);
     try {
+      const statusToFetch = filterMode === 'resolved' ? 'collected' : 'available';
       const { data, error } = await supabase
         .from('items')
         .select('*')
-        .eq('status', statusFilter)
+        .eq('status', statusToFetch)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -54,8 +57,6 @@ const BrowseItemsPage: React.FC = () => {
       setLoading(false);
     }
   };
-
-
 
   const getFirstImagePath = (path?: string): string | undefined => {
     if (!path) return undefined;
@@ -75,7 +76,6 @@ const BrowseItemsPage: React.FC = () => {
     return data.publicUrl;
   };
 
-  // Helper to get relative time
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -90,9 +90,16 @@ const BrowseItemsPage: React.FC = () => {
   const filteredItems = items.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesType = typeFilter === 'all' || item.item_type === typeFilter;
+    
+    const locationStr = (item.item_type === 'lost' ? item.lost_location : item.found_location) || '';
+    const matchesLocation = locationStr.toLowerCase().includes(locationQuery.toLowerCase());
+
+    const matchesType = (filterMode === 'all' || filterMode === 'resolved') 
+      ? true 
+      : item.item_type === filterMode;
+      
     const matchesCategory = categoryFilter === 'All' || item.category === categoryFilter;
-    return matchesSearch && matchesType && matchesCategory;
+    return matchesSearch && matchesType && matchesCategory && matchesLocation;
   });
 
   if (authLoading) {
@@ -108,7 +115,7 @@ const BrowseItemsPage: React.FC = () => {
   if (!user) {
     return (
       <main className="flex flex-col items-center justify-center min-h-[60vh] px-4 pb-12">
-        <div className="glass-panel p-10 max-w-[500px] w-full text-center flex flex-col items-center">
+        <div className="p-10 max-w-[500px] w-full text-center flex flex-col items-center bg-white border-none shadow-apple rounded-[16px]">
           <div className="bg-primary/10 p-5 rounded-full mb-6">
             <Lock size={48} className="text-primary" />
           </div>
@@ -119,7 +126,7 @@ const BrowseItemsPage: React.FC = () => {
             <Link 
               to="/auth" 
               state={{ from: { pathname: '/browse' } }}
-              className="bg-primary text-white py-3 px-8 rounded-[50px] font-bold no-underline transition-all hover:bg-[#001122] hover:scale-105 shadow-md flex-1 max-w-[200px]"
+              className="bg-primary text-white py-3 px-8 rounded-[50px] font-bold no-underline transition-all hover:bg-black hover:scale-105 shadow-md flex-1 max-w-[200px]"
             >
               Login
             </Link>
@@ -139,91 +146,78 @@ const BrowseItemsPage: React.FC = () => {
   return (
     <main className="flex flex-col gap-8 pb-12">
       <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-2">
-        <div className="w-full md:w-auto">
+        <div className="w-full">
           <h1 className="text-[3rem] font-extrabold leading-tight text-primary mb-2">
             Browse Items
           </h1>
           <p className="text-text-light text-[1.1rem]">
-            {statusFilter === 'available' 
-              ? 'Help return lost items, or find what you lost.' 
-              : 'Items that have been successfully returned.'}
+            {filterMode === 'resolved' 
+              ? 'Items that have been successfully returned.'
+              : 'Help return lost items, or find what you lost.' }
           </p>
-        </div>
-
-        {/* Tab Filters */}
-        <div className="flex bg-white/50 backdrop-blur-md p-1 rounded-[50px] border border-white/80 w-full md:w-auto">
-          <button
-            onClick={() => setStatusFilter('available')}
-            className={`flex-1 md:flex-none py-2 px-6 rounded-[50px] font-bold text-[0.95rem] transition-all duration-300 ${
-              statusFilter === 'available' ? 'bg-primary text-white shadow-md' : 'text-text-light hover:text-primary'
-            }`}
-          >
-            Available
-          </button>
-          <button
-            onClick={() => setStatusFilter('collected')}
-            className={`flex-1 md:flex-none py-2 px-6 rounded-[50px] font-bold text-[0.95rem] transition-all duration-300 ${
-              statusFilter === 'collected' ? 'bg-[#137333] text-white shadow-md' : 'text-text-light hover:text-[#137333]'
-            }`}
-          >
-            Collected
-          </button>
         </div>
       </div>
 
-      {/* Search and Filters Bar */}
-      <div className="glass-panel p-4 flex flex-col md:flex-row gap-4">
-        <div className="flex-1 flex items-center bg-white/70 rounded-[12px] px-4 py-3 border border-white/80 focus-within:bg-white transition-all">
+      {/* Streamlined Search and Filters Bar */}
+      <div className="bg-white rounded-[16px] p-4 flex flex-col gap-4 border-none shadow-apple">
+        {/* Top row: Search input */}
+        <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] px-4 py-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
           <Search size={18} className="text-text-light mr-3" />
           <input 
             type="text" 
-            placeholder="Search items..." 
+            placeholder="Search for an item..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-transparent border-none outline-none w-full text-text-dark font-sans placeholder:text-text-light/60"
             maxLength={100}
           />
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button 
-            onClick={() => setTypeFilter('all')}
-            className={`px-4 py-3 rounded-[12px] font-semibold text-[0.9rem] transition-all border ${
-              typeFilter === 'all' ? 'bg-white border-primary/20 shadow-sm text-primary' : 'bg-transparent border-transparent text-text-light hover:bg-white/50'
-            }`}
-          >
-            All
-          </button>
-          <button 
-            onClick={() => setTypeFilter('lost')}
-            className={`px-4 py-3 rounded-[12px] font-semibold text-[0.9rem] transition-all border ${
-              typeFilter === 'lost' ? 'bg-white border-primary/20 shadow-sm text-primary' : 'bg-transparent border-transparent text-text-light hover:bg-white/50'
-            }`}
-          >
-            Lost Only
-          </button>
-          <button 
-            onClick={() => setTypeFilter('found')}
-            className={`px-4 py-3 rounded-[12px] font-semibold text-[0.9rem] transition-all border ${
-              typeFilter === 'found' ? 'bg-white border-[#137333]/20 shadow-sm text-[#137333]' : 'bg-transparent border-transparent text-text-light hover:bg-white/50'
-            }`}
-          >
-            Found Only
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <select 
-            value={categoryFilter} 
-            onChange={e => setCategoryFilter(e.target.value)}
-            className="px-4 py-3 rounded-[12px] font-semibold text-[0.9rem] transition-all border bg-white/70 border-white/80 focus:bg-white text-text-dark"
-          >
-            <option value="All">All Categories</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Wallets/Bags">Wallets/Bags</option>
-            <option value="Keys">Keys</option>
-            <option value="Documents">Documents</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Other">Other</option>
-          </select>
+        
+        {/* Bottom row: Pills and Dropdowns */}
+        <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
+          {/* Segmented Pills */}
+          <div className="flex bg-[var(--bg-base)] p-1 rounded-[12px] border border-black/5 w-full lg:w-auto overflow-x-auto">
+            {(['all', 'lost', 'found', 'resolved'] as FilterMode[]).map(mode => (
+              <button
+                key={mode}
+                onClick={() => setFilterMode(mode)}
+                className={`flex-1 lg:flex-none py-2 px-5 rounded-[8px] font-bold text-[0.9rem] capitalize transition-all duration-300 whitespace-nowrap ${
+                  filterMode === mode 
+                    ? 'bg-white text-primary shadow-sm border border-black/5' 
+                    : 'text-text-light hover:text-primary bg-transparent border border-transparent'
+                }`}
+              >
+                {mode}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+            <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] px-4 py-2 border border-black/5 focus-within:bg-white transition-all w-full sm:w-auto">
+              <MapPin size={16} className="text-text-light mr-2" />
+              <input 
+                type="text" 
+                placeholder="Campus Location..." 
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                className="bg-transparent border-none outline-none w-full text-text-dark font-sans text-[0.9rem] placeholder:text-text-light/60 min-w-[120px]"
+                maxLength={50}
+              />
+            </div>
+            <select 
+              value={categoryFilter} 
+              onChange={e => setCategoryFilter(e.target.value)}
+              className="px-4 py-2 rounded-[12px] font-semibold text-[0.9rem] transition-all border border-black/5 bg-[var(--bg-base)] focus:bg-white text-text-dark w-full sm:w-auto outline-none"
+            >
+              <option value="All">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Wallets/Bags">Wallets/Bags</option>
+              <option value="Keys">Keys</option>
+              <option value="Documents">Documents</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -235,13 +229,13 @@ const BrowseItemsPage: React.FC = () => {
           </div>
         </div>
       ) : filteredItems.length === 0 ? (
-        <div className="glass-panel p-12 text-center flex flex-col items-center justify-center min-h-[300px]">
+        <div className="bg-white rounded-[16px] p-12 text-center flex flex-col items-center justify-center min-h-[300px] border-none shadow-apple">
           <Package size={48} className="text-text-light/30 mb-4" />
           <h3 className="text-[1.5rem] font-bold text-text-dark mb-2">No items found</h3>
           <p className="text-text-light">
-            {searchQuery 
+            {searchQuery || locationQuery 
               ? "Try adjusting your search or filters." 
-              : `There are currently no ${statusFilter} items to display.`}
+              : `There are currently no ${filterMode} items to display.`}
           </p>
         </div>
       ) : (
@@ -251,21 +245,21 @@ const BrowseItemsPage: React.FC = () => {
             const locationStr = item.item_type === 'lost' ? item.lost_location : item.found_location;
             
             return (
-              <Link to={`/item/${item.id}`} key={item.id} className="bg-white/60 rounded-[20px] p-4 border border-white/80 interactive-hover flex flex-col h-full no-underline text-inherit">
+              <Link to={`/item/${item.id}`} key={item.id} className="bg-white rounded-[16px] p-4 shadow-apple-hover flex flex-col h-full no-underline text-inherit">
                 {/* Image Container */}
-                <div className="relative rounded-[16px] overflow-hidden mb-4 bg-[#e8e6e3] aspect-[4/3] flex-shrink-0">
+                <div className="relative rounded-[12px] overflow-hidden mb-4 bg-[var(--bg-base)] aspect-[4/3] flex-shrink-0">
                   {imageUrl ? (
                     <img src={imageUrl} alt={item.name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#001f3f]/10 to-[#FFD444]/20">
+                    <div className="w-full h-full flex items-center justify-center bg-primary/5">
                       <Package size={48} className="text-primary/20" />
                     </div>
                   )}
                   
-                  <span className={`absolute top-3 right-3 py-1 px-3 rounded-[50px] text-[0.75rem] font-bold shadow-sm backdrop-blur-md ${
+                  <span className={`absolute top-3 right-3 py-1 px-3 rounded-[50px] text-[0.7rem] font-bold shadow-sm backdrop-blur-md ${
                     item.item_type === 'found' 
-                      ? 'bg-[#e6f4ea]/90 text-[#137333] border border-[#137333]/20' 
-                      : 'bg-white/90 text-primary border border-primary/20'
+                      ? 'bg-[#E2E8F0]/90 text-[#334155] border border-[#CBD5E1]/50' // Found (neutral/sage)
+                      : 'bg-[#FEF3C7]/90 text-[#D97706] border border-[#FDE68A]/50' // Lost (warm amber)
                   }`}>
                     {item.item_type === 'found' ? 'Found' : 'Lost'}
                   </span>
@@ -275,7 +269,7 @@ const BrowseItemsPage: React.FC = () => {
                 <div className="flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-[1.2rem] font-bold text-text-dark leading-tight">{item.name}</h3>
-                    <span className="text-[0.7rem] bg-black/5 px-2 py-1 rounded-[8px] font-semibold text-text-light whitespace-nowrap ml-2">
+                    <span className="text-[0.7rem] bg-[var(--bg-base)] px-2 py-1 rounded-[8px] font-semibold text-text-light whitespace-nowrap ml-2 border border-black/5">
                       {item.category}
                     </span>
                   </div>
@@ -296,20 +290,13 @@ const BrowseItemsPage: React.FC = () => {
                       <User size={15} className="text-primary/70" /> 
                       {item.reporter_name}
                     </span>
-
-                    <span className="text-[0.85rem] text-text-dark font-medium flex items-center gap-2 mb-2">
-                      <Phone size={15} className="text-primary/70" /> 
-                      {item.reporter_contact}
-                    </span>
                     
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-[0.75rem] text-text-light flex items-center gap-1.5">
                         <Clock size={13} /> {timeAgo(item.created_at)}
                       </span>
                       
-
-
-                      {statusFilter === 'collected' && item.collected_at && (
+                      {filterMode === 'resolved' && item.collected_at && (
                         <span className="text-[0.75rem] text-[#137333] font-bold flex items-center gap-1">
                           <CheckCircle size={13} /> 
                           Collected {timeAgo(item.collected_at)}

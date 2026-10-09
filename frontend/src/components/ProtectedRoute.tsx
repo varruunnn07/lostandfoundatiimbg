@@ -8,7 +8,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   if (isLoading) {
     return (
       <main className="flex flex-col items-center justify-center min-h-[50vh]">
-        <div className="glass-panel p-8 rounded-[20px]">
+        <div className="bg-white border-none shadow-apple p-8 rounded-[16px]">
           <p className="text-text-dark font-medium">Checking authentication...</p>
         </div>
       </main>

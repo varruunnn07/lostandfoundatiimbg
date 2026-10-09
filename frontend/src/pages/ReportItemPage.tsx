@@ -162,8 +162,8 @@ const ReportItemPage: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col items-center py-4">
-      <div className="glass-panel p-8 md:p-10 max-w-[800px] w-full rounded-[24px]">
+    <main className="flex flex-col items-center py-4 px-4">
+      <div className="bg-white p-6 sm:p-8 md:p-10 max-w-[800px] w-full rounded-[16px] border-none shadow-apple">
         <div className="text-center mb-8">
           <h1 className="text-[2.5rem] font-extrabold mb-2 text-primary">Report an Item</h1>
           <p className="text-text-light">Help us keep track of lost and found items on campus.</p>
@@ -184,14 +184,14 @@ const ReportItemPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
           {/* Type Selector */}
-          <div className="flex gap-4 mb-2">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-2">
             <button
               type="button"
               onClick={() => setItemType('lost')}
-              className={`flex-1 py-3 rounded-[16px] font-bold transition-all duration-300 border-2 ${
+              className={`flex-1 py-3 rounded-[12px] font-bold transition-all duration-300 border-2 ${
                 itemType === 'lost' 
                 ? 'bg-primary border-primary text-white' 
-                : 'bg-white/50 border-white/80 text-text-light hover:border-primary/30 hover:text-primary'
+                : 'bg-[var(--bg-base)] border-black/5 text-text-light hover:border-primary/30 hover:text-primary'
               }`}
             >
               I Lost Something
@@ -199,10 +199,10 @@ const ReportItemPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setItemType('found')}
-              className={`flex-1 py-3 rounded-[16px] font-bold transition-all duration-300 border-2 ${
+              className={`flex-1 py-3 rounded-[12px] font-bold transition-all duration-300 border-2 ${
                 itemType === 'found' 
                 ? 'bg-[#137333] border-[#137333] text-white' 
-                : 'bg-white/50 border-white/80 text-text-light hover:border-[#137333]/30 hover:text-[#137333]'
+                : 'bg-[var(--bg-base)] border-black/5 text-text-light hover:border-[#137333]/30 hover:text-[#137333]'
               }`}
             >
               I Found Something
@@ -212,7 +212,7 @@ const ReportItemPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[0.85rem] font-bold text-text-dark ml-2">Item Name *</label>
-              <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+              <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 <Package size={18} className="text-text-light mr-3" />
                 <input 
                   type="text" 
@@ -228,7 +228,7 @@ const ReportItemPage: React.FC = () => {
 
             <div className="flex flex-col gap-2">
               <label className="text-[0.85rem] font-bold text-text-dark ml-2">Category *</label>
-              <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+              <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 <Tag size={18} className="text-text-light mr-3" />
                 <select 
                   value={category}
@@ -244,7 +244,7 @@ const ReportItemPage: React.FC = () => {
 
           <div className="flex flex-col gap-2">
             <label className="text-[0.85rem] font-bold text-text-dark ml-2">Description</label>
-            <div className="flex items-start bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+            <div className="flex items-start bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <AlignLeft size={18} className="text-text-light mr-3 mt-1" />
               <textarea 
                 value={description}
@@ -260,7 +260,7 @@ const ReportItemPage: React.FC = () => {
             <label className="text-[0.85rem] font-bold text-text-dark ml-2">
               {itemType === 'lost' ? 'Lost Location *' : 'Found Location *'}
             </label>
-            <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+            <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
               <MapPin size={18} className="text-text-light mr-3" />
               <input 
                 type="text" 
@@ -277,7 +277,7 @@ const ReportItemPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-[0.85rem] font-bold text-text-dark ml-2">Your Name *</label>
-              <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+              <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 <User size={18} className="text-text-light mr-3" />
                 <input 
                   type="text" 
@@ -293,7 +293,7 @@ const ReportItemPage: React.FC = () => {
 
             <div className="flex flex-col gap-2">
               <label className="text-[0.85rem] font-bold text-text-dark ml-2">Phone Number *</label>
-              <div className="flex items-center bg-white/70 rounded-[12px] p-3 border border-white/80 focus-within:bg-white focus-within:shadow-sm transition-all">
+              <div className="flex items-center bg-[var(--bg-base)] rounded-[12px] p-3 border border-black/5 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 <Phone size={18} className="text-text-light mr-3" />
                 <input 
                   type="text" 
@@ -358,7 +358,7 @@ const ReportItemPage: React.FC = () => {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full bg-primary text-white border-none py-[1rem] px-[1.5rem] rounded-[16px] font-bold text-[1.1rem] cursor-pointer flex justify-center items-center gap-2 transition-all duration-300 hover:bg-[#001122] disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_15px_rgba(0,31,63,0.3)] hover:shadow-[0_6px_20px_rgba(0,31,63,0.4)]"
+              className="w-full bg-primary text-white border-none py-[1rem] px-[1.5rem] rounded-[16px] font-bold text-[1.1rem] cursor-pointer flex justify-center items-center gap-2 transition-all duration-300 hover:bg-[#001122] disabled:opacity-70 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
             >
               {isSubmitting ? (
                 <span className="animate-pulse flex items-center gap-2">

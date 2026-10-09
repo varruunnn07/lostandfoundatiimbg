@@ -9,11 +9,11 @@ const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getNavClass = ({ isActive }: { isActive: boolean }) => {
-    return `no-underline font-medium py-[0.6rem] px-[1.2rem] rounded-[50px] transition-all duration-300 text-[0.95rem] ${isActive ? 'bg-[rgba(0,31,63,0.1)] text-primary' : 'text-text-dark hover:bg-white/50'}`;
+    return `no-underline font-medium py-[0.6rem] px-[1.2rem] rounded-[50px] transition-all duration-300 text-[0.95rem] ${isActive ? 'bg-primary/10 text-primary' : 'text-text-dark hover:bg-black/5'}`;
   };
 
   const getMobileNavClass = ({ isActive }: { isActive: boolean }) => {
-    return `no-underline font-medium py-3 px-6 rounded-2xl transition-all duration-300 text-[1.1rem] ${isActive ? 'bg-[rgba(0,31,63,0.1)] text-primary' : 'text-text-dark hover:bg-black/5'}`;
+    return `no-underline font-medium py-3 px-6 rounded-2xl transition-all duration-300 text-[1.1rem] ${isActive ? 'bg-primary/10 text-primary' : 'text-text-dark hover:bg-black/5'}`;
   };
 
   const handleAuthAction = () => {
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="flex justify-between items-center py-3 px-4 md:py-4 md:px-8 rounded-[50px] bg-white/50 backdrop-blur-[10px] border border-white/80 mb-8 md:mb-16 relative z-50">
+      <header className="flex justify-between items-center py-3 px-4 md:py-4 md:px-8 rounded-[50px] bg-white/85 backdrop-blur-xl border border-white/80 mb-8 md:mb-16 relative z-50 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
         
         {/* Left Side: Logos */}
         <div className="flex items-center gap-6">
@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Menu Toggle */}
         <button 
-          className="md:hidden flex items-center justify-center p-2 text-primary bg-white/50 rounded-full border border-white/50"
+          className="md:hidden flex items-center justify-center p-2 text-primary bg-white rounded-full border border-black/5 shadow-sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-[#f0f4f8]/95 backdrop-blur-xl flex flex-col pt-24 px-6 pb-8 overflow-y-auto">
+        <div className="md:hidden fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-xl flex flex-col pt-24 px-6 pb-8 overflow-y-auto">
           <div className="flex flex-col gap-2 mb-10">
             <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={getMobileNavClass}>Home</NavLink>
             <NavLink to="/report" onClick={() => setIsMobileMenuOpen(false)} className={getMobileNavClass}>Report Item</NavLink>

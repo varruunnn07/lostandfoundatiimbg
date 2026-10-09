@@ -3,7 +3,7 @@ import { Mail, Clock } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white/80 backdrop-blur-xl border border-white/80 text-text-dark rounded-[30px] md:rounded-[40px] px-6 md:px-10 py-12 md:py-16 mt-8 md:mt-24 shadow-[0_8px_32px_rgba(0,0,0,0.05)] overflow-hidden relative">
+    <footer className="bg-white border-none shadow-apple text-text-dark rounded-[24px] px-6 md:px-10 py-12 md:py-16 mt-8 md:mt-24 overflow-hidden relative">
       {/* Top section: Logo, Tagline, Links */}
       <div className="flex flex-col md:flex-row justify-between gap-12 mb-16">
         

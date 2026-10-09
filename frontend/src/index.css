@@ -6,16 +6,16 @@
 
 @layer base {
   :root {
-    --primary-color: #001f3f;
-    --secondary-color: #FFD444;
-    --text-dark: #1a1a1a;
-    --text-light: #5f6368;
-    --bg-base: #f0f4f8;
+    --primary-color: #1E1E24;
+    --secondary-color: #F5B82E;
+    --text-dark: #1E1E24;
+    --text-light: #64748b;
+    --bg-base: #FBF9F5;
     --glass-bg: rgba(255, 255, 255, 0.65);
     --glass-border: rgba(255, 255, 255, 0.8);
     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
     --glass-blur: blur(16px);
-    --card-radius: 20px;
+    --card-radius: 16px;
     --pill-radius: 50px;
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
@@ -105,7 +105,23 @@
   .interactive-hover:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Apple Style Shadows */
+  .shadow-apple {
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-apple-hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .shadow-apple-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-color: rgba(0, 0, 0, 0.08);
   }
 
   /* Gradient image backgrounds from original */

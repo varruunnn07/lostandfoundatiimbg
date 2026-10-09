@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
-import { MapPin, Package, User, Phone, ArrowLeft, CheckCircle, Tag, Calendar, ChevronLeft, ChevronRight, Mail, Building, Clock, AlertCircle, Lock } from 'lucide-react';
+import { MapPin, Package, User, Phone, ArrowLeft, CheckCircle, Tag, Calendar, ChevronLeft, ChevronRight, Mail, Building, Clock, AlertCircle, Lock, MessageCircle } from 'lucide-react';
 
 interface Item {
   id: string;
@@ -176,7 +176,7 @@ const ItemDetailsPage: React.FC = () => {
   if (!user) {
     return (
       <main className="flex flex-col items-center justify-center min-h-[60vh] px-4 pb-12">
-        <div className="glass-panel p-10 max-w-[500px] w-full text-center flex flex-col items-center">
+        <div className="bg-white border-none shadow-apple p-10 max-w-[500px] w-full text-center flex flex-col items-center rounded-[16px]">
           <div className="bg-primary/10 p-5 rounded-full mb-6">
             <Lock size={48} className="text-primary" />
           </div>
@@ -207,7 +207,7 @@ const ItemDetailsPage: React.FC = () => {
   if (error || !item) {
     return (
       <main className="flex flex-col items-center justify-center min-h-[50vh] px-4">
-        <div className="glass-panel p-10 max-w-[500px] w-full text-center">
+        <div className="bg-white border-none shadow-apple p-10 max-w-[500px] w-full text-center rounded-[16px]">
           <Package size={64} className="text-text-light/30 mx-auto mb-6" />
           <h2 className="text-[2rem] font-extrabold mb-4 text-primary">Item Not Found</h2>
           <p className="text-text-light mb-8">{error || 'The item you are looking for does not exist.'}</p>
@@ -237,14 +237,14 @@ const ItemDetailsPage: React.FC = () => {
           {isOwner && item.status === 'available' && (
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="bg-[#137333] hover:bg-[#0d5224] text-white py-2 px-5 rounded-[50px] font-bold transition-all shadow-md flex items-center gap-2"
+              className="bg-[#137333] hover:bg-[#0d5224] text-white py-2 px-5 rounded-[50px] font-bold transition-all shadow-sm hover:shadow-md flex items-center gap-2"
             >
               <CheckCircle size={18} /> Mark as Collected
             </button>
           )}
         </div>
 
-        <div className="glass-panel rounded-[24px] overflow-hidden flex flex-col md:flex-row border border-white/80 shadow-md">
+        <div className="bg-white rounded-[16px] overflow-hidden flex flex-col md:flex-row border-none shadow-apple">
           
           {/* Image Section */}
           <div className="md:w-1/2 bg-[#e8e6e3] min-h-[300px] md:min-h-full flex flex-col">
@@ -286,10 +286,10 @@ const ItemDetailsPage: React.FC = () => {
                 </div>
               )}
               
-              <span className={`absolute top-4 right-4 py-1.5 px-4 rounded-[50px] text-[0.85rem] font-bold shadow-md backdrop-blur-md z-20 ${
+              <span className={`absolute top-4 right-4 py-1.5 px-4 rounded-[50px] text-[0.85rem] font-bold shadow-sm backdrop-blur-md z-20 ${
                 item.item_type === 'found' 
-                  ? 'bg-[#e6f4ea]/90 text-[#137333] border border-[#137333]/20' 
-                  : 'bg-white/90 text-primary border border-primary/20'
+                  ? 'bg-[#E2E8F0]/90 text-[#334155] border border-[#CBD5E1]/50' 
+                  : 'bg-[#FEF3C7]/90 text-[#D97706] border border-[#FDE68A]/50'
               }`}>
                 {item.item_type === 'found' ? 'Found Item' : 'Lost Item'}
               </span>
@@ -322,7 +322,7 @@ const ItemDetailsPage: React.FC = () => {
           </div>
 
           {/* Details Section */}
-          <div className="md:w-1/2 p-8 md:p-12 flex flex-col bg-white/40">
+          <div className="md:w-1/2 p-8 md:p-12 flex flex-col bg-white">
             <div className="mb-6">
               <span className="inline-block bg-black/5 px-3 py-1.5 rounded-[8px] font-semibold text-text-light text-[0.8rem] mb-3 flex items-center gap-2 w-fit">
                 <Tag size={14} /> {item.category}
@@ -351,7 +351,7 @@ const ItemDetailsPage: React.FC = () => {
               </p>
             </div>
             
-            <div className="mt-auto bg-white/60 p-6 rounded-[16px] border border-white/80 shadow-sm flex flex-col gap-6">
+            <div className="mt-auto bg-[var(--bg-base)] p-6 rounded-[16px] border border-black/5 flex flex-col gap-6">
               <div>
                 <h3 className="text-[1rem] font-bold mb-4 text-text-dark uppercase tracking-wider">Reporter Contact</h3>
                 <div className="flex flex-col gap-3">
@@ -359,10 +359,31 @@ const ItemDetailsPage: React.FC = () => {
                     <User size={20} className="text-primary/70 flex-shrink-0" /> 
                     {item.reporter_name}
                   </span>
-                  <span className="text-[1.05rem] text-text-dark font-medium flex items-center gap-3">
-                    <Phone size={20} className="text-primary/70 flex-shrink-0" /> 
-                    {item.reporter_contact}
-                  </span>
+                  <div className="flex items-center justify-between flex-wrap gap-4">
+                    <span className="text-[1.05rem] text-text-dark font-medium flex items-center gap-3">
+                      <Phone size={20} className="text-primary/70 flex-shrink-0" /> 
+                      {item.reporter_contact}
+                    </span>
+                    
+                    <div className="flex items-center gap-2">
+                      <a 
+                        href={`tel:${item.reporter_contact}`}
+                        className="w-[36px] h-[36px] flex items-center justify-center bg-black/5 hover:bg-primary hover:text-white rounded-full transition-colors text-text-dark"
+                        title="Call Reporter"
+                      >
+                        <Phone size={16} />
+                      </a>
+                      <a 
+                        href={`https://wa.me/${item.reporter_contact.replace(/\D/g, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-[36px] h-[36px] flex items-center justify-center bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white rounded-full transition-colors"
+                        title="Message on WhatsApp"
+                      >
+                        <MessageCircle size={16} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
 
