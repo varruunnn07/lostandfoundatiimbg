@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Archive, Check, Users, Heart, ArrowRight, Package, Lock, MapPin, Clock } from 'lucide-react';
+import { Plus, Archive, Check, Users, Heart, ArrowRight, Package, Lock, MapPin, Clock, Laptop, Wallet, Key, FileText, Shirt } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
 import { supabase } from '../lib/supabase';
 
@@ -12,6 +12,7 @@ interface Item {
   found_location?: string;
   image_path?: string;
   created_at: string;
+  category?: string;
 }
 
 const HomePage: React.FC = () => {
@@ -40,17 +41,14 @@ const HomePage: React.FC = () => {
         .select('*', { count: 'exact', head: true })
         .eq('status', 'collected');
 
-      // Attempt to fetch members if a profiles table exists, otherwise estimate based on activity
       let membersCount = 356;
       try {
-        const { count, error } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
+        const { data, error } = await supabase.rpc('get_user_count');
         
-        if (!error && count !== null) {
-          membersCount = count;
+        if (!error && typeof data === 'number') {
+          membersCount = data;
         } else {
-          // If no profiles table is accessible, estimate members based on items reported + base
+          // Fallback to estimation if RPC fails
           membersCount = 356 + (reported || 0) * 2;
         }
       } catch (e) {
@@ -103,7 +101,7 @@ const HomePage: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('items')
-        .select('id, name, item_type, lost_location, found_location, image_path, created_at')
+        .select('id, name, item_type, lost_location, found_location, image_path, created_at, category')
         .eq('status', 'available')
         .order('created_at', { ascending: false })
         .limit(16);
@@ -141,9 +139,20 @@ const HomePage: React.FC = () => {
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     if (diffInSeconds < 60) return 'Just now';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  };
+
+  const getCategoryIcon = (category?: string, size = 14) => {
+    switch (category) {
+      case 'Electronics': return <Laptop size={size} />;
+      case 'Wallets/Bags': return <Wallet size={size} />;
+      case 'Keys': return <Key size={size} />;
+      case 'Documents': return <FileText size={size} />;
+      case 'Clothing': return <Shirt size={size} />;
+      default: return <Package size={size} />;
+    }
   };
 
   return (
@@ -318,21 +327,24 @@ const HomePage: React.FC = () => {
                           <Package size={32} className="text-primary/20" />
                         </div>
                       )}
-                      <span className={`absolute top-2 right-2 py-1 px-3 rounded-[50px] text-[0.7rem] font-bold shadow-sm backdrop-blur-md ${item.item_type === 'found'
+                      <span className={`absolute top-2 right-2 py-1 px-3 rounded-[50px] text-[0.7rem] font-bold shadow-sm backdrop-blur-md flex items-center gap-1.5 ${item.item_type === 'found'
                         ? 'bg-[#E2E8F0]/90 text-[#334155] border border-[#CBD5E1]/50' // Found (neutral/sage)
                         : 'bg-[#FEF3C7]/90 text-[#D97706] border border-[#FDE68A]/50' // Lost (warm amber)
                         }`}>
-                        {item.item_type === 'found' ? 'Found' : 'Lost'}
+                        <Clock size={12} /> {item.item_type === 'found' ? 'Found' : 'Lost'} {timeAgo(item.created_at)}
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-[0.9rem] sm:text-[1rem] font-bold mb-1 sm:mb-2 text-text-dark leading-tight">{item.name}</h3>
+                      <h3 className="text-[0.9rem] sm:text-[1rem] font-bold mb-1 sm:mb-2 text-text-dark leading-tight flex items-center gap-1.5">
+                        {item.category && <span className="text-primary/70">{getCategoryIcon(item.category, 14)}</span>}
+                        {item.name}
+                      </h3>
                       <div className="flex flex-col gap-1">
                         <span className="text-[0.7rem] sm:text-[0.8rem] text-text-light flex items-center gap-1 sm:gap-2 truncate">
                           <MapPin size={14} className="flex-shrink-0" /> {locationStr}
                         </span>
                         <span className="text-[0.7rem] sm:text-[0.8rem] text-text-light flex items-center gap-1 sm:gap-2">
-                          <Clock size={14} className="flex-shrink-0" /> {timeAgo(item.created_at)}
+                          <Clock size={14} className="flex-shrink-0" /> {new Date(item.created_at).toLocaleDateString()}
                         </span>
                       </div>
                     </div>

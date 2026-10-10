@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 import { useAuth } from '../lib/AuthContext';
-import { MapPin, Clock, Search, Package, User, CheckCircle, Lock } from 'lucide-react';
+import { MapPin, Clock, Search, Package, User, CheckCircle, Lock, Laptop, Wallet, Key, FileText, Shirt } from 'lucide-react';
 
 interface Item {
   id: string;
@@ -82,9 +82,20 @@ const BrowseItemsPage: React.FC = () => {
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     if (diffInSeconds < 60) return 'Just now';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  };
+
+  const getCategoryIcon = (category: string, size = 14) => {
+    switch (category) {
+      case 'Electronics': return <Laptop size={size} />;
+      case 'Wallets/Bags': return <Wallet size={size} />;
+      case 'Keys': return <Key size={size} />;
+      case 'Documents': return <FileText size={size} />;
+      case 'Clothing': return <Shirt size={size} />;
+      default: return <Package size={size} />;
+    }
   };
 
   const filteredItems = items.filter(item => {
@@ -255,11 +266,11 @@ const BrowseItemsPage: React.FC = () => {
                     </div>
                   )}
 
-                  <span className={`absolute top-3 right-3 py-1 px-3 rounded-[50px] text-[0.7rem] font-bold shadow-sm backdrop-blur-md ${item.item_type === 'found'
+                  <span className={`absolute top-3 right-3 py-1 px-3 rounded-[50px] text-[0.7rem] font-bold shadow-sm backdrop-blur-md flex items-center gap-1.5 ${item.item_type === 'found'
                       ? 'bg-[#E2E8F0]/90 text-[#334155] border border-[#CBD5E1]/50' // Found (neutral/sage)
                       : 'bg-[#FEF3C7]/90 text-[#D97706] border border-[#FDE68A]/50' // Lost (warm amber)
                     }`}>
-                    {item.item_type === 'found' ? 'Found' : 'Lost'}
+                    <Clock size={12} /> {item.item_type === 'found' ? 'Found' : 'Lost'} {timeAgo(item.created_at)}
                   </span>
                 </div>
 
@@ -267,8 +278,8 @@ const BrowseItemsPage: React.FC = () => {
                 <div className="flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-[1.2rem] font-bold text-text-dark leading-tight">{item.name}</h3>
-                    <span className="text-[0.7rem] bg-[var(--bg-base)] px-2 py-1 rounded-[8px] font-semibold text-text-light whitespace-nowrap ml-2 border border-black/5">
-                      {item.category}
+                    <span className="text-[0.75rem] bg-primary/5 text-primary px-2.5 py-1.5 rounded-[8px] font-semibold whitespace-nowrap ml-2 border border-primary/10 flex items-center gap-1.5">
+                      {getCategoryIcon(item.category)} {item.category}
                     </span>
                   </div>
 
@@ -291,7 +302,7 @@ const BrowseItemsPage: React.FC = () => {
 
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-[0.75rem] text-text-light flex items-center gap-1.5">
-                        <Clock size={13} /> {timeAgo(item.created_at)}
+                        <Clock size={13} /> {new Date(item.created_at).toLocaleDateString()}
                       </span>
 
                       {filterMode === 'resolved' && item.collected_at && (

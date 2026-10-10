@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { User, LogOut, Menu, X } from 'lucide-react';
 import { useAuth } from '../lib/AuthContext';
 
@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
       <header className="flex justify-between items-center py-3 px-4 md:py-4 md:px-8 rounded-[50px] bg-white/85 backdrop-blur-xl border border-white/80 mb-8 md:mb-16 relative z-50 shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
         
         {/* Left Side: Logos */}
-        <div className="flex items-center gap-6">
+        <Link to="/" className="flex items-center gap-6 no-underline text-inherit cursor-pointer">
           <div className="flex items-center gap-4 border-r border-black/10 pr-6 hidden lg:flex">
             <img src="/logo-iimbg-new.png" alt="IIM Bodh Gaya" className="h-[75px] object-contain -my-4 ml-[-5px]" />
             <img src="/logo-aacsb.png" alt="AACSB" className="h-[45px] object-contain" />
@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
               <span className="text-[0.6rem] md:text-[0.65rem] font-semibold tracking-[1px] text-text-light">IIM BODHGAYA</span>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex flex-wrap justify-center gap-2 lg:gap-4">

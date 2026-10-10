@@ -66,10 +66,10 @@ const Footer = () => {
         <div className="text-text-light text-[0.9rem] font-medium text-center md:text-left">
           Created by IT Committee Copyright © {new Date().getFullYear()} IIM Bodhgaya. All rights reserved.
         </div>
-        <div className="flex items-center justify-center gap-6">
-          <img src="/logo.png" alt="IT Committee" className="h-12 w-12 rounded-full object-cover opacity-70 hover:opacity-100 transition-opacity" />
-          <img src="/logo-iimbg.png" alt="IIM Bodh Gaya" className="h-12 object-contain opacity-70 hover:opacity-100 transition-opacity" />
-          <img src="/logo-aacsb.png" alt="AACSB" className="h-12 object-contain opacity-70 hover:opacity-100 transition-opacity" />
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+          <img src="/logo.png" alt="IT Committee" className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/logo-iimbg.png" alt="IIM Bodh Gaya" className="h-10 md:h-12 object-contain opacity-70 hover:opacity-100 transition-opacity" />
+          <img src="/logo-aacsb.png" alt="AACSB" className="h-10 md:h-12 object-contain opacity-70 hover:opacity-100 transition-opacity" />
         </div>
       </div>
     </footer>
